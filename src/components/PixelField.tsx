@@ -3,7 +3,7 @@ import { prefersReducedMotion } from "@/lib/motion";
 
 /** Grid of pixels behind the hero. Lights up around the pointer and twinkles at random.
  *  Pauses off-screen; draws one static frame for reduced motion. */
-export function PixelField({ cell = 24 }: { cell?: number }) {
+export function PixelField({ cell: cellProp = 24 }: { cell?: number }) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -13,6 +13,7 @@ export function PixelField({ cell = 24 }: { cell?: number }) {
     if (!canvas || !host || !ctx) return;
 
     const reduce = prefersReducedMotion();
+    const cell = window.innerWidth < 600 ? cellProp + 8 : cellProp;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     type Px = { x: number; y: number; a: number; coral: boolean };
     let w = 0, h = 0, cells: Px[] = [], mx = -999, my = -999, running = true, raf = 0;
@@ -48,10 +49,13 @@ export function PixelField({ cell = 24 }: { cell?: number }) {
     const onMove = (e: PointerEvent) => { const r = canvas.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; };
     const onLeave = () => { mx = my = -999; };
     const ro = new ResizeObserver(() => { size(); if (reduce) draw(); });
-    const io = new IntersectionObserver(([e]) => {
-      const was = running; running = e.isIntersecting;
+    let onScreen = true;
+    const sync = () => {
+      const was = running; running = onScreen && !document.hidden;
       if (running && !was && !reduce) draw();
-    });
+    };
+    const io = new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; sync(); });
+    document.addEventListener("visibilitychange", sync);
 
     size();
     ro.observe(canvas);
@@ -63,10 +67,11 @@ export function PixelField({ cell = 24 }: { cell?: number }) {
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect(); io.disconnect();
+      document.removeEventListener("visibilitychange", sync);
       host.removeEventListener("pointermove", onMove);
       host.removeEventListener("pointerleave", onLeave);
     };
-  }, [cell]);
+  }, [cellProp]);
 
   return <canvas ref={ref} className="pixel-field" aria-hidden="true" />;
 }

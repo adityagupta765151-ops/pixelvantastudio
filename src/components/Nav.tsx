@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Logo } from "./Logo";
 import { NAV_LINKS } from "@/data/nav";
@@ -14,14 +14,24 @@ export function Nav() {
   const active = useActiveSection(IDS, onHome);
   const progressRef = useScrollProgress<HTMLSpanElement>();
   const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   // close menu on route change / Escape; lock page scroll while open
   useEffect(() => setOpen(false), [pathname]);
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const focusables = () => [toggleRef.current!, ...Array.from(menuRef.current?.querySelectorAll<HTMLElement>("a") ?? [])];
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { setOpen(false); toggleRef.current?.focus(); return; }
+      if (e.key !== "Tab") return;
+      const list = focusables(), first = list[0], last = list[list.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => menuRef.current?.querySelector<HTMLElement>("a")?.focus());
     return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = ""; };
   }, [open]);
 
@@ -32,7 +42,7 @@ export function Nav() {
           <Logo size={28} />
         </Link>
 
-        <nav id="nav-menu" className={`nav-menu${open ? " is-open" : ""}`} aria-label="Main">
+        <nav ref={menuRef} id="nav-menu" className={`nav-menu${open ? " is-open" : ""}`} aria-label="Main">
           <ul>
             {NAV_LINKS.map((l, i) => (
               <li key={l.id} style={{ ["--i" as string]: i }}>
@@ -58,6 +68,7 @@ export function Nav() {
         </Link>
 
         <button
+          ref={toggleRef}
           className="nav-toggle"
           type="button"
           aria-expanded={open}

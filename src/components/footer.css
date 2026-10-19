@@ -19,3 +19,5 @@
   .footer-brand { grid-column: 1 / -1; }
   .footer-top { grid-column: 1 / -1; justify-self: start; }
 }
+.footer li a { display: inline-block; padding-block: 4px; }
+@media (pointer: coarse) { .footer li a { padding-block: 8px; } }

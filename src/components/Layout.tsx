@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
@@ -6,6 +6,11 @@ import { Footer } from "./Footer";
 /** Scrolls to #hash targets after navigation, or to top on a new page. */
 function ScrollManager() {
   const { pathname, hash, key } = useLocation();
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) { first.current = false; return; }
+    if (!hash) document.getElementById("main")?.focus({ preventScroll: true });
+  }, [pathname, hash]);
   useEffect(() => {
     if (hash) {
       const id = decodeURIComponent(hash.slice(1));

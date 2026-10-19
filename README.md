@@ -28,5 +28,17 @@ npm run build    # type-check + production build into dist/
 - [x] 5 Project detail pages
 - [x] 5.5 Admin panel (Supabase)
 - [x] 6 Skills, process, contact form (enquiries → /admin inbox)
-- [ ] 7 Motion, responsive, accessibility polish
-- [ ] 8 SEO, testing, launch
+- [x] 7 Motion, responsive, accessibility polish
+- [x] 8 SEO, testing, launch
+
+## SEO & launch
+- `index.html`: description, canonical, Open Graph / Twitter card (`public/og-image.png`), JSON-LD
+- `public/robots.txt` (blocks `/admin`), `public/site.webmanifest`, app icons
+- `dist/sitemap.xml` is generated on every build from published projects (`scripts/sitemap.mjs`)
+- `vercel.json`: SPA rewrites, long cache for hashed assets, security headers, noindex on `/admin`
+- Regenerate share image/icons: `python3 scripts/make_brand_images.py public` (needs Pillow + the font files)
+
+## Before sharing the link
+1. Submit `https://pixelvantastudio.vercel.app/sitemap.xml` in Google Search Console
+2. Check the share card at https://www.opengraph.xyz with the site URL
+3. If you buy a custom domain, update the URL in `index.html`, `public/robots.txt`, `scripts/sitemap.mjs` and `src/data/site.ts`
