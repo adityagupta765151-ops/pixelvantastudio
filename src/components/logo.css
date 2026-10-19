@@ -1,0 +1,15 @@
+.pv-logo { display: inline-flex; align-items: center; gap: 10px; line-height: 1; }
+.pv-word { font-family: var(--font-display); font-weight: 700; font-size: 22px; letter-spacing: -.04em; color: var(--vanta); }
+.pv-studio { color: var(--cobalt); font-weight: 500; }
+.pv-logo.is-dark .pv-word { color: var(--fog); }
+.pv-logo.is-dark .pv-studio { color: var(--cobalt-l); }
+.pv-logo.is-dark .pv-mark rect:first-child { fill: var(--fog); }
+.pv-logo.is-dark .pv-mark g { fill: var(--vanta); }
+
+/* build-in on load, then the cursor pixel blinks */
+.pv-px { animation: pv-in .5s var(--ease) both; transform-box: fill-box; transform-origin: center; }
+@keyframes pv-in { from { transform: scale(0); } to { transform: none; } }
+.pv-cursor { animation: pv-blink 2.6s steps(1) infinite .8s; }
+@keyframes pv-blink { 0%, 72% { opacity: 1; } 73%, 84% { opacity: .15; } 85% { opacity: 1; } }
+.pv-logo:hover .pv-eye { animation: pv-look .6s var(--ease); }
+@keyframes pv-look { 50% { transform: translateX(4px); } }

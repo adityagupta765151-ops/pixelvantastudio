@@ -1,0 +1,55 @@
+/* pixelvantastudio design tokens — single source of truth.
+   Light "fog" sections build trust, "vanta" dark sections showcase work. */
+:root {
+  /* colour */
+  --fog: #F1F2F5;        /* light background */
+  --vanta: #0E0F13;      /* ink + dark sections */
+  --vanta-2: #16181E;    /* raised dark surface */
+  --vanta-3: #20232B;
+  --cobalt: #3A4BFF;     /* primary accent */
+  --cobalt-l: #8C97FF;   /* accent on dark */
+  --coral: #FF6A3D;      /* signature pixel, small highlights only */
+  --stone: #D7DAE2;      /* hairlines on light */
+  --mist: #E8EAF0;       /* soft fills on light */
+  --white: #FFFFFF;
+  --muted: #646875;      /* secondary text on light */
+  --muted-d: #9EA3B3;    /* secondary text on dark */
+  --line-dark: #262A33;
+
+  /* status (semantic, separate from accent) */
+  --st-live: #B9D29A;
+  --st-dev: #FFB08F;
+  --st-proto: #A9C4D6;
+  --st-concept: #C9C3D6;
+
+  /* type */
+  --font-display: "Bricolage Grotesque", "Manrope", system-ui, sans-serif;
+  --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --fs-xs: 12px;
+  --fs-sm: 14px;
+  --fs-md: 16px;
+  --fs-lg: 18px;
+  --fs-h3: clamp(26px, 2.6vw, 32px);
+  --fs-h2: clamp(38px, 5vw, 64px);
+  --fs-h1: clamp(46px, 7vw, 96px);
+
+  /* spacing */
+  --s1: 8px; --s2: 16px; --s3: 24px; --s4: 40px; --s5: 64px; --s6: 112px;
+  --maxw: 1240px;
+  --gutter: max(16px, env(safe-area-inset-left, 0px));
+
+  /* borders & shadows */
+  --line: 1px solid var(--stone);
+  --line-d: 1px solid var(--line-dark);
+  --radius: 0px;            /* sharp, pixel-true corners */
+  --shadow-card: 0 1px 0 rgba(14, 15, 19, .04), 0 12px 32px -18px rgba(14, 15, 19, .25);
+
+  /* motion */
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --t-fast: 180ms;
+  --t-med: 420ms;
+  --t-slow: 800ms;
+
+  color-scheme: light;
+}

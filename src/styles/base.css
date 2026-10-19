@@ -1,0 +1,54 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--fog);
+  color: var(--vanta);
+  font: var(--fs-md)/1.6 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img, svg { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; }
+p { margin: 0; }
+::selection { background: var(--cobalt); color: #fff; }
+:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 3px; }
+.dark :focus-visible { outline-color: var(--cobalt-l); }
+
+.wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (min-width: 760px) {
+  .wrap {
+    padding-left: max(40px, env(safe-area-inset-left, 0px));
+    padding-right: max(40px, env(safe-area-inset-right, 0px));
+  }
+}
+
+.dark { background: var(--vanta); color: var(--fog); }
+.eyebrow { font: var(--fs-xs) var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--cobalt); }
+.dark .eyebrow { color: var(--cobalt-l); }
+.display { font-family: var(--font-display); font-weight: 650; line-height: .98; letter-spacing: -.035em; }
+.display em { font-style: normal; color: var(--cobalt); }
+.dark .display em { color: var(--cobalt-l); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px;
+  font: 600 15px/1 var(--font-body); text-decoration: none; cursor: pointer;
+  border: 1px solid var(--vanta); border-radius: var(--radius);
+  transition: background var(--t-fast), color var(--t-fast), gap var(--t-fast) var(--ease), transform 350ms var(--ease);
+}
+.btn-primary { background: var(--vanta); color: var(--fog); }
+.btn-primary:hover { background: var(--cobalt); border-color: var(--cobalt); gap: 14px; }
+.btn-ghost { background: transparent; color: var(--vanta); }
+.btn-ghost:hover { background: var(--vanta); color: var(--fog); }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
