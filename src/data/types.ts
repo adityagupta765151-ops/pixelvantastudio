@@ -17,9 +17,12 @@ export interface Project {
   description: string;
   /** path under /public, e.g. "/projects/quantdesk/cover.webp". Empty = placeholder art */
   cover?: string;
-  images?: string[];
+  /** extra screenshots: paths under /public with a short caption */
+  images?: { src: string; caption?: string }[];
   objective?: string;
   solution?: string;
+  /** design decisions worth explaining, one per line */
+  decisions?: string[];
   features?: string[];
   role?: string;
   stack: string[];
