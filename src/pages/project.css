@@ -54,3 +54,4 @@
 .lightbox-ctrl { display: flex; gap: 8px; justify-content: center; margin-top: 12px; }
 .lightbox-ctrl button { width: 44px; height: 44px; background: none; border: 1px solid #3B404C; color: var(--fog); cursor: pointer; font: 16px var(--font-mono); }
 .lightbox-ctrl button:hover { background: var(--fog); color: var(--vanta); }
+.pj-loading { min-height: 80vh; }

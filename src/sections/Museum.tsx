@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, type PointerEvent } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { CATEGORIES } from "@/data/categories";
-import { PROJECTS } from "@/data/projects";
+import { useProjects } from "@/data/ProjectsProvider";
 import type { CategoryId, Project } from "@/data/types";
 import { ProjectCover } from "@/components/ProjectCover";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -14,6 +14,7 @@ const pad = (n: number, l = 2) => String(n).padStart(l, "0");
 
 export function Museum() {
   const location = useLocation();
+  const { projects: PROJECTS } = useProjects();
   const [filter, setFilter] = useState<Filter>("all");
 
   // Category links elsewhere use ?cat=<id>#projects — sync whenever one is followed.
@@ -30,7 +31,7 @@ export function Museum() {
     window.history.replaceState(window.history.state, "", url.pathname + url.search + "#projects");
   };
 
-  const list = useMemo(() => (filter === "all" ? PROJECTS : PROJECTS.filter((p) => p.category === filter)), [filter]);
+  const list = useMemo(() => (filter === "all" ? PROJECTS : PROJECTS.filter((p) => p.category === filter)), [filter, PROJECTS]);
   const emptyCats = filter === "all"
     ? CATEGORIES.filter((c) => !PROJECTS.some((p) => p.category === c.id))
     : list.length ? [] : CATEGORIES.filter((c) => c.id === filter);

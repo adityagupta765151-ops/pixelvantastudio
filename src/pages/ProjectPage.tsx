@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
-import { PROJECTS, getProject } from "@/data/projects";
+import { useProjects } from "@/data/ProjectsProvider";
 import { CATEGORIES } from "@/data/categories";
 import { STATUS_LABEL } from "@/data/types";
 import { ProjectCover } from "@/components/ProjectCover";
@@ -14,10 +14,11 @@ const pad = (n: number) => String(n).padStart(3, "0");
 
 export default function ProjectPage() {
   const { slug = "" } = useParams();
-  const p = getProject(slug);
+  const { projects: PROJECTS, source } = useProjects();
+  const p = PROJECTS.find((x) => x.slug === slug);
   usePageMeta(p?.title, p?.description);
   const [shot, setShot] = useState<number | null>(null);
-  if (!p) return <NotFound />;
+  if (!p) return source === "live" || source === "offline" ? <NotFound /> : <main className="pj-loading" aria-busy="true" />;
 
   const cat = CATEGORIES.find((c) => c.id === p.category)!;
   const i = PROJECTS.indexOf(p);

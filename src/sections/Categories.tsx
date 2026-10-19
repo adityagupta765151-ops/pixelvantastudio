@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { CATEGORIES } from "@/data/categories";
-import { PROJECTS } from "@/data/projects";
+import { useProjects } from "@/data/ProjectsProvider";
 import { CategoryArt } from "@/components/art/CategoryArt";
 import "./categories.css";
 
 export function Categories() {
+  const { projects: PROJECTS } = useProjects();
   return (
     <section className="sec cats-sec" aria-labelledby="cats-title">
       <div className="wrap">
