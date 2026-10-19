@@ -1,4 +1,4 @@
-// Level 1 foundation page. Sections replace this in Levels 2–6.
+// Foundation preview + section stubs. Real sections replace these in Levels 3–6.
 import { Link } from "react-router-dom";
 import { Logo, PixelMark } from "@/components/Logo";
 import { SITE } from "@/data/site";
@@ -12,10 +12,18 @@ const SWATCHES = [
   ["Coral", "--coral"], ["Stone", "--stone"], ["Muted", "--muted"],
 ] as const;
 
+const STUBS = [
+  ["about", "About", "Level 3"],
+  ["projects", "Digital Museum", "Level 4"],
+  ["skills", "Skills", "Level 6"],
+  ["process", "How I work", "Level 6"],
+  ["contact", "Let's build something great", "Level 6"],
+] as const;
+
 export default function Home() {
   return (
     <main className="foundation">
-      <section className="wrap fd-hero">
+      <section id="home" className="wrap fd-hero">
         <Logo size={40} />
         <p className="eyebrow">Level 1 · Foundation</p>
         <h1 className="display">
@@ -58,6 +66,15 @@ export default function Home() {
           </ul>
         </div>
       </section>
+
+      {STUBS.map(([id, title, level], i) => (
+        <section key={id} id={id} className={`fd-stub${i % 2 ? " dark" : ""}`}>
+          <div className="wrap">
+            <p className="eyebrow">{level}</p>
+            <h2 className="display">{title}</h2>
+          </div>
+        </section>
+      ))}
     </main>
   );
 }

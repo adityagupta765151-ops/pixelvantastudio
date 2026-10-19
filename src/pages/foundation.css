@@ -14,3 +14,8 @@
 .fd-routes { margin-top: var(--s3); }
 .fd-routes a { text-decoration: none; font-weight: 600; }
 .fd-routes a:hover { color: var(--cobalt); }
+.foundation { padding-bottom: 0; }
+.fd-stub { padding-block: var(--s6); border-top: var(--line); }
+.fd-stub.dark { border-top: 0; }
+.fd-stub h2 { font-size: var(--fs-h2); margin-top: var(--s2); color: var(--muted); }
+.fd-stub.dark h2 { color: var(--muted-d); }
