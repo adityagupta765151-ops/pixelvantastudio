@@ -22,5 +22,8 @@
 .cat-experiments:hover .ca-orbit { animation-duration: 3s; }
 @keyframes ca-spin { to { transform: rotate(360deg); } }
 
-@media (max-width: 1000px) { .cats { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 520px) { .cats { grid-template-columns: 1fr; } }
+.cats { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.cat:hover .ca-prints g:first-child { transform: rotate(-14deg) translateX(-6px); }
+.ca-prints g { transition: transform var(--t-med) var(--ease); transform-box: fill-box; transform-origin: center; }
+.cat:hover .ca-flash { animation: ca-flash .5s ease-out; }
+@keyframes ca-flash { 20% { opacity: .85; } 100% { opacity: 0; } }

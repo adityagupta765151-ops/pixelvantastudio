@@ -1,29 +1,30 @@
 import { useState, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useProjects } from "@/data/ProjectsProvider";
-import { CATEGORIES } from "@/data/categories";
 import { STATUS_LABEL } from "@/data/types";
 import { ProjectCover } from "@/components/ProjectCover";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Lightbox } from "@/components/Lightbox";
 import { usePageMeta } from "@/lib/usePageMeta";
 import NotFound from "./NotFound";
+import { GalleryView } from "./GalleryView";
 import "./project.css";
 
 const pad = (n: number) => String(n).padStart(3, "0");
 
 export default function ProjectPage() {
   const { slug = "" } = useParams();
-  const { projects: PROJECTS, source } = useProjects();
+  const { projects: PROJECTS, source, categoryOf } = useProjects();
   const p = PROJECTS.find((x) => x.slug === slug);
   usePageMeta(p?.title, p?.description);
   const [shot, setShot] = useState<number | null>(null);
   if (!p) return source === "live" || source === "offline" ? <NotFound /> : <main className="pj-loading" aria-busy="true" />;
 
-  const cat = CATEGORIES.find((c) => c.id === p.category)!;
+  const cat = categoryOf(p);
   const i = PROJECTS.indexOf(p);
   const next = PROJECTS[(i + 1) % PROJECTS.length];
   const images = p.images ?? [];
+  if (cat.kind === "gallery") return <GalleryView project={p} category={cat} next={next} />;
   const links = [
     p.liveUrl && { href: p.liveUrl, label: "Live demo", primary: true },
     p.repoUrl && { href: p.repoUrl, label: "Source code" },

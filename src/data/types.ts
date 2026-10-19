@@ -1,10 +1,14 @@
-export type CategoryId = "websites" | "apps" | "games" | "experiments";
+/** Category ids are managed in the admin panel (e.g. "websites", "photography"). */
+export type CategoryId = string;
+/** "projects" = case-study pages; "gallery" = photo series with a picture-first layout. */
+export type CategoryKind = "projects" | "gallery";
 export type ProjectStatus = "live" | "dev" | "proto" | "concept";
 
 export interface Category {
   id: CategoryId;
   name: string;
   description: string;
+  kind: CategoryKind;
 }
 
 export interface Project {
@@ -35,6 +39,10 @@ export interface Project {
   layout?: "wide" | "half";
   /** accent hue for placeholder art */
   hue: string;
+  /** shown as the large Featured exhibit at the top of the museum */
+  featured?: boolean;
+  /** for photo series: where it was shot */
+  location?: string;
 }
 
 export const STATUS_LABEL: Record<ProjectStatus, string> = {

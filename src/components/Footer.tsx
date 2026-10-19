@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { SITE } from "@/data/site";
-import { CATEGORIES } from "@/data/categories";
+import { useProjects } from "@/data/ProjectsProvider";
 import "./footer.css";
 
 export function Footer() {
+  const { categories: CATEGORIES } = useProjects();
   const socials = SITE.socials.filter((s) => s.url);
   const toTop = () =>
     window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });

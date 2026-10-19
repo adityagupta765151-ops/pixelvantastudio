@@ -3,7 +3,7 @@ import type { Project } from "./types";
 /* Replace TODO fields with real details. Any empty field is hidden on the site.
    Screenshots go in /public/projects/<slug>/ */
 export const PROJECTS: Project[] = [
-  { id: 1, slug: "fieldops", title: "FieldOps", category: "apps", status: "dev", layout: "wide", hue: "#3A4BFF",
+  { id: 1, slug: "fieldops", title: "FieldOps", category: "apps", status: "dev", layout: "wide", featured: true, hue: "#3A4BFF",
     description: "India-first field service management SaaS for teams that send technicians out on jobs.",
     objective: "Small service businesses still run jobs on phone calls and WhatsApp. FieldOps gives them one place to schedule work, track technicians and close jobs.",
     role: "Founder and full-stack developer.", stack: ["SaaS", "Full-stack"] },

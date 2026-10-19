@@ -1,0 +1,20 @@
+.gv-head { padding-block: var(--s4) var(--s4); }
+.gv-title-row { display: grid; grid-template-columns: 1fr auto; gap: var(--s4); align-items: end; }
+.gv-title { font-size: clamp(48px, 9vw, 128px); }
+.gv-facts { margin: 0; display: grid; grid-auto-flow: column; gap: var(--s3); }
+.gv-facts dt { font: 500 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted-d); }
+.gv-facts dd { margin: 4px 0 0; color: var(--fog); }
+.gv-head .pj-sum { margin-top: var(--s3); }
+.gv-story { margin-top: var(--s2); max-width: 62ch; color: var(--muted-d); }
+@media (max-width: 760px) { .gv-title-row { grid-template-columns: 1fr; } .gv-facts { grid-auto-flow: row; grid-template-columns: 1fr 1fr; } }
+
+.gv-wall { padding-block: 0 var(--s6); }
+.gv-masonry { columns: 3 300px; column-gap: var(--s2); }
+.gv-photo { display: block; width: 100%; margin: 0 0 var(--s2); padding: 0; border: 0; background: var(--vanta-2); cursor: zoom-in; position: relative; overflow: hidden; break-inside: avoid; animation: museum-in var(--t-slow) var(--ease) both; }
+.gv-photo img { width: 100%; height: auto; display: block; transition: transform 900ms var(--ease), filter var(--t-med); }
+.gv-photo:hover img { transform: scale(1.03); }
+.gv-photo span { position: absolute; left: 0; right: 0; bottom: 0; padding: 28px 14px 12px; text-align: left; font-size: var(--fs-sm); color: var(--fog); background: linear-gradient(transparent, rgba(14, 15, 19, .8)); opacity: 0; transform: translateY(6px); transition: opacity var(--t-med), transform var(--t-med) var(--ease); }
+.gv-photo:hover span, .gv-photo:focus-visible span { opacity: 1; transform: none; }
+@media (hover: none) { .gv-photo span { opacity: 1; transform: none; } }
+.gv-empty { padding: var(--s5) 0; color: var(--muted-d); border: 1px dashed #343844; text-align: center; }
+@keyframes museum-in { from { opacity: 0; transform: translateY(12px); } }

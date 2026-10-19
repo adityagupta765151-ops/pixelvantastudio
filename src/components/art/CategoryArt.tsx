@@ -1,6 +1,7 @@
-import type { CategoryId } from "@/data/types";
+import type { CategoryKind } from "@/data/types";
 
-export function CategoryArt({ id }: { id: CategoryId }) {
+/** Illustration per museum room. New rooms from the admin get a generic frame (or a camera for galleries). */
+export function CategoryArt({ id, kind = "projects" }: { id: string; kind?: CategoryKind }) {
   switch (id) {
     case "websites":
       return (
@@ -57,5 +58,35 @@ export function CategoryArt({ id }: { id: CategoryId }) {
           <circle cx="100" cy="75" r="4" fill="#0E0F13" />
         </svg>
       );
+    case "photography":
+      return <PhotoArt />;
+    default:
+      return kind === "gallery" ? <PhotoArt /> : <GenericArt />;
   }
+}
+
+function PhotoArt() {
+  return (
+    <svg viewBox="0 0 200 150" aria-hidden="true">
+      <g className="ca-prints">
+        <g transform="rotate(-8 70 80)"><rect x="22" y="34" width="84" height="76" fill="#FFFFFF" stroke="#D7DAE2" /><rect x="29" y="41" width="70" height="52" fill="#3A4BFF" /><circle cx="84" cy="54" r="6" fill="#FF6A3D" /><path d="M29 93 52 66 68 82 78 72 99 93z" fill="#0E0F13" /></g>
+        <g transform="rotate(6 130 76)"><rect x="92" y="28" width="84" height="76" fill="#FFFFFF" stroke="#D7DAE2" /><rect x="99" y="35" width="70" height="52" fill="#E8EAF0" /><circle cx="134" cy="61" r="16" fill="none" stroke="#0E0F13" strokeWidth="1.5" /><circle cx="134" cy="61" r="7" fill="#0E0F13" /></g>
+      </g>
+      <rect className="ca-flash" x="0" y="0" width="200" height="150" fill="#FFFFFF" opacity="0" />
+    </svg>
+  );
+}
+
+function GenericArt() {
+  return (
+    <svg viewBox="0 0 200 150" aria-hidden="true">
+      <rect x="30" y="20" width="140" height="110" fill="none" stroke="#0E0F13" />
+      <g fill="#3A4BFF">
+        {[0, 1, 2, 3].map((x) => [0, 1, 2].map((y) => (
+          <rect key={`${x}-${y}`} x={52 + x * 26} y={40 + y * 26} width="18" height="18" opacity={(x + y) % 3 === 0 ? 1 : 0.25} />
+        )))}
+      </g>
+      <rect x="130" y="92" width="18" height="18" fill="#FF6A3D" />
+    </svg>
+  );
 }

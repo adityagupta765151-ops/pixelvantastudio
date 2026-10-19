@@ -1,24 +1,23 @@
 import { useRef, useState } from "react";
 import { supabase, BUCKET } from "@/lib/supabase";
 import { compressImage } from "@/lib/image";
-import { CATEGORIES } from "@/data/categories";
 import { STATUS_LABEL, type ProjectStatus } from "@/data/types";
-import type { ProjectRow } from "@/data/projectsRemote";
+import type { CategoryRow, ProjectRow } from "@/data/projectsRemote";
 import { storagePath } from "./Dashboard";
 
-export const emptyRow = (sort: number): ProjectRow => ({
-  id: 0, slug: "", title: "", category: "websites", status: "concept", description: "",
+export const emptyRow = (sort: number, category = "websites"): ProjectRow => ({
+  id: 0, slug: "", title: "", category, status: "concept", description: "",
   cover: null, images: [], objective: "", solution: "", decisions: [], features: [], role: "",
   stack: [], live_url: "", repo_url: "", demo_url: "", limitations: "", date: "", layout: null,
-  hue: "#3A4BFF", sort_order: sort, published: false,
+  hue: "#3A4BFF", sort_order: sort, published: false, featured: false, location: "",
 });
 
 const slugify = (s: string) => s.toLowerCase().normalize("NFKD").replace(/[^\w\s-]/g, "").trim().replace(/[\s_]+/g, "-").replace(/-+/g, "-");
 const lines = (s: string) => s.split("\n").map((x) => x.trim()).filter(Boolean);
 const isUrl = (s: string) => !s || /^https?:\/\/\S+\.\S+/.test(s);
 
-export function Editor({ initial, isNew, onCancel, onSaved }: {
-  initial: ProjectRow; isNew: boolean; onCancel: () => void; onSaved: (title: string) => void;
+export function Editor({ initial, isNew, categories, onCancel, onSaved }: {
+  initial: ProjectRow; isNew: boolean; categories: CategoryRow[]; onCancel: () => void; onSaved: (title: string) => void;
 }) {
   const [f, setF] = useState(() => ({
     ...initial,
@@ -38,6 +37,7 @@ export function Editor({ initial, isNew, onCancel, onSaved }: {
   const coverInput = useRef<HTMLInputElement>(null);
   const galleryInput = useRef<HTMLInputElement>(null);
 
+  const gallery = categories.find((c) => c.id === f.category)?.kind === "gallery";
   const set = <K extends keyof typeof f>(k: K, v: (typeof f)[K]) => setF((p) => ({ ...p, [k]: v }));
 
   async function upload(file: File): Promise<string> {
@@ -105,13 +105,14 @@ export function Editor({ initial, isNew, onCancel, onSaved }: {
     setBusy("save"); setFormError("");
     const n = (s: string | null) => (s ?? "").trim() || null;
     const row = {
-      slug, title: f.title.trim(), category: f.category, status: f.status, description: f.description.trim(),
+      slug, title: f.title.trim(), category: f.category, status: gallery ? "live" : f.status, description: f.description.trim(),
       cover: f.cover, images: f.images.map((i) => ({ src: i.src, ...(i.caption?.trim() ? { caption: i.caption.trim() } : {}) })),
       objective: n(f.objective), solution: n(f.solution), role: n(f.role), limitations: n(f.limitations), date: n(f.date),
       features: lines(f.featuresText), decisions: lines(f.decisionsText),
       stack: f.stackText.split(",").map((s) => s.trim()).filter(Boolean),
       live_url: n(f.live_url), repo_url: n(f.repo_url), demo_url: n(f.demo_url),
       layout: f.layout || null, hue: f.hue, sort_order: f.sort_order, published: f.published,
+      featured: f.featured, location: n(f.location),
     };
     const { error } = isNew
       ? await supabase!.from("projects").insert(row)
@@ -135,7 +136,7 @@ export function Editor({ initial, isNew, onCancel, onSaved }: {
         <div className="adm-head">
           <div>
             <button type="button" className="adm-back" onClick={cancel}>← All projects</button>
-            <h1>{isNew ? "New project" : f.title || "Untitled"}</h1>
+            <h1>{isNew ? (gallery ? "New photo series" : "New project") : f.title || "Untitled"}</h1>
           </div>
           <div className="adm-head-actions">
             <label className="adm-switch">
@@ -160,36 +161,40 @@ export function Editor({ initial, isNew, onCancel, onSaved }: {
               <div>
                 <label htmlFor="ed-category">Category</label>
                 <select id="ed-category" value={f.category} onChange={(e) => set("category", e.target.value as ProjectRow["category"])}>
-                  {CATEGORIES.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                  {categories.map((c) => <option key={c.id} value={c.id}>{c.name}{c.kind === "gallery" ? " (photo gallery)" : ""}</option>)}
                 </select>
               </div>
-              <div>
+              {!gallery && <div>
                 <label htmlFor="ed-status">Status</label>
                 <select id="ed-status" value={f.status} onChange={(e) => set("status", e.target.value as ProjectStatus)}>
                   {(Object.keys(STATUS_LABEL) as ProjectStatus[]).map((s) => <option key={s} value={s}>{STATUS_LABEL[s]}</option>)}
                 </select>
-              </div>
+              </div>}
+              {gallery && <div>
+                <label htmlFor="ed-location">Location</label>
+                <input id="ed-location" value={f.location ?? ""} onChange={(e) => set("location", e.target.value)} placeholder="Prayagraj, Sangam" />
+              </div>}
             </div>
             <label htmlFor="ed-description">One-line summary <small>shown on cards</small></label>
             <textarea {...field("description")} rows={2} value={f.description} onChange={(e) => set("description", e.target.value)} />
             <Err k="description" />
             <div className="adm-two">
               <div>
-                <label htmlFor="ed-role">My role</label>
-                <input id="ed-role" value={f.role ?? ""} onChange={(e) => set("role", e.target.value)} placeholder="Solo developer" />
+                <label htmlFor="ed-role">{gallery ? "Credit" : "My role"}</label>
+                <input id="ed-role" value={f.role ?? ""} onChange={(e) => set("role", e.target.value)} placeholder={gallery ? "Shot and edited by me" : "Solo developer"} />
               </div>
               <div>
-                <label htmlFor="ed-date">Date</label>
+                <label htmlFor="ed-date">{gallery ? "When it was shot" : "Date"}</label>
                 <input id="ed-date" value={f.date ?? ""} onChange={(e) => set("date", e.target.value)} placeholder="Oct 2026" />
               </div>
             </div>
-            <label htmlFor="ed-stack">Stack <small>comma separated</small></label>
-            <input id="ed-stack" value={f.stackText} onChange={(e) => set("stackText", e.target.value)} placeholder="React, FastAPI, PostgreSQL" />
+            <label htmlFor="ed-stack">{gallery ? "Gear" : "Stack"} <small>comma separated</small></label>
+            <input id="ed-stack" value={f.stackText} onChange={(e) => set("stackText", e.target.value)} placeholder={gallery ? "Sony A7 III, 35mm f/1.8, Lightroom" : "React, FastAPI, PostgreSQL"} />
           </fieldset>
 
           <fieldset>
-            <legend>Images</legend>
-            <label>Cover</label>
+            <legend>{gallery ? "Photos" : "Images"}</legend>
+            <label>{gallery ? "Cover photo" : "Cover"} <small>{gallery ? "first photo on the page and the museum print" : ""}</small></label>
             <div className="adm-cover">
               {f.cover ? <img src={f.cover} alt="Cover preview" /> : <span className="adm-cover-empty" style={{ background: f.hue }}>No cover — placeholder art is shown</span>}
               <div className="adm-cover-actions">
@@ -202,7 +207,7 @@ export function Editor({ initial, isNew, onCancel, onSaved }: {
             </div>
             <p className="adm-hint">Images are resized to 2000px and converted to WebP before upload.</p>
 
-            <label>Screenshots</label>
+            <label>{gallery ? "More photos" : "Screenshots"}</label>
             <ul className="adm-shots">
               {f.images.map((im, i) => (
                 <li key={im.src}>
@@ -218,11 +223,18 @@ export function Editor({ initial, isNew, onCancel, onSaved }: {
               ))}
             </ul>
             <button type="button" className="adm-btn ghost sm" onClick={() => galleryInput.current?.click()} disabled={!!busy}>
-              {busy === "gallery" ? "Uploading…" : "+ Add screenshots"}
+              {busy === "gallery" ? "Uploading…" : gallery ? "+ Add photos" : "+ Add screenshots"}
             </button>
             <input ref={galleryInput} type="file" accept="image/*" multiple hidden onChange={(e) => { void onGallery(e.target.files); e.target.value = ""; }} />
           </fieldset>
 
+          {gallery ? (
+          <fieldset className="adm-span">
+            <legend>Story <small>optional</small></legend>
+            <label htmlFor="ed-objective">The story behind the series</label>
+            <textarea id="ed-objective" rows={4} value={f.objective ?? ""} onChange={(e) => set("objective", e.target.value)} placeholder="Where you were, what caught your eye, how you edited it." />
+          </fieldset>
+          ) : (<>
           <fieldset className="adm-span">
             <legend>Case study <small>empty sections are hidden on the site</small></legend>
             <label htmlFor="ed-objective">The problem</label>
@@ -253,15 +265,20 @@ export function Editor({ initial, isNew, onCancel, onSaved }: {
               </div>
             ))}
           </fieldset>
+          </>)}
 
           <fieldset>
             <legend>Museum display</legend>
-            <label htmlFor="ed-layout">Card size in "All" view</label>
+            <label className="adm-switch adm-feature">
+              <input type="checkbox" checked={f.featured} onChange={(e) => set("featured", e.target.checked)} />
+              <span>★ Featured exhibit <small>shown big at the top of the museum</small></span>
+            </label>
+            {!gallery && <><label htmlFor="ed-layout">Card size in "All" view</label>
             <select id="ed-layout" value={f.layout ?? ""} onChange={(e) => set("layout", (e.target.value || null) as ProjectRow["layout"])}>
               <option value="">Normal (⅓ width)</option>
               <option value="half">Half width</option>
               <option value="wide">Wide (⅔ width)</option>
-            </select>
+            </select></>}
             <label htmlFor="ed-hue">Placeholder colour</label>
             <div className="adm-hue">
               <input id="ed-hue" type="color" value={f.hue} onChange={(e) => set("hue", e.target.value)} />

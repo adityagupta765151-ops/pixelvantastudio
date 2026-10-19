@@ -1,4 +1,4 @@
-import type { Project, CategoryId, ProjectStatus } from "./types";
+import type { Project, Category, CategoryId, CategoryKind, ProjectStatus } from "./types";
 
 /** Row shape of public.projects in Supabase. */
 export interface ProjectRow {
@@ -25,7 +25,20 @@ export interface ProjectRow {
   hue: string;
   sort_order: number;
   published: boolean;
+  featured: boolean;
+  location: string | null;
 }
+
+export interface CategoryRow {
+  id: string;
+  name: string;
+  description: string;
+  kind: CategoryKind;
+  sort_order: number;
+  published: boolean;
+}
+
+export const rowToCategory = (r: CategoryRow): Category => ({ id: r.id, name: r.name, description: r.description, kind: r.kind });
 
 const u = <T,>(v: T | null | undefined) => (v === null || v === "" ? undefined : v ?? undefined);
 
@@ -37,5 +50,6 @@ export function rowToProject(r: ProjectRow): Project {
     features: r.features ?? [], role: u(r.role), stack: r.stack ?? [],
     liveUrl: u(r.live_url), repoUrl: u(r.repo_url), demoUrl: u(r.demo_url),
     limitations: u(r.limitations), date: u(r.date), layout: u(r.layout), hue: r.hue || "#3A4BFF",
+    featured: !!r.featured, location: u(r.location),
   };
 }
