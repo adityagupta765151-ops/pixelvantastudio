@@ -1,0 +1,54 @@
+.museum-title { font-size: clamp(46px, 7vw, 104px) !important; }
+.museum-intro { display: grid; gap: 10px; }
+.museum-plaque { font: var(--fs-xs) var(--font-mono); color: var(--muted-d); letter-spacing: .06em; }
+
+.museum-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: var(--s4); padding-bottom: var(--s3); border-bottom: var(--line-d); }
+.museum-filter { min-height: 42px; padding: 0 18px; background: transparent; border: 1px solid #343844; color: var(--muted-d); font: 500 var(--fs-sm) var(--font-body); cursor: pointer; display: flex; align-items: center; gap: 8px; transition: color var(--t-fast), border-color var(--t-fast), background var(--t-fast); }
+.museum-filter sup { font: 11px var(--font-mono); opacity: .7; }
+.museum-filter:hover { color: var(--fog); border-color: var(--muted-d); }
+.museum-filter[aria-pressed="true"] { background: var(--fog); color: var(--vanta); border-color: var(--fog); }
+
+.museum-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--s4) var(--s3); }
+.museum-card, .museum-slot { animation: museum-in var(--t-med) var(--ease) both; }
+@keyframes museum-in { from { opacity: 0; transform: translateY(12px); } }
+
+.museum-card { grid-column: span 4; display: flex; flex-direction: column; gap: 14px; text-decoration: none; color: inherit; min-width: 0; }
+.museum-card.is-wide { grid-column: span 8; }
+.museum-card.is-half { grid-column: span 6; }
+.museum-frame {
+  position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--vanta-2); border: var(--line-d);
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 600ms var(--ease), border-color var(--t-med);
+}
+.museum-card.is-wide .museum-frame { aspect-ratio: 16 / 9; }
+.museum-frame .cover-art, .museum-frame .cover-img { position: absolute; inset: 0; transition: transform 900ms var(--ease); }
+.museum-card:hover .museum-frame { border-color: #4A52A8; }
+.museum-card:hover .cover-art, .museum-card:hover .cover-img, .museum-card:focus-visible .cover-art { transform: scale(1.04); }
+.museum-frame::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(140, 151, 255, .22), transparent 60%); opacity: 0; transition: opacity var(--t-med); }
+.museum-card:hover .museum-frame::after { opacity: 1; }
+.cover-line { stroke-dasharray: 260; stroke-dashoffset: 0; }
+.museum-card:hover .cover-line { animation: cover-draw 1.2s var(--ease); }
+@keyframes cover-draw { from { stroke-dashoffset: 260; } }
+.museum-no { position: absolute; top: 12px; left: 12px; z-index: 1; font: 11px var(--font-mono); color: var(--muted-d); letter-spacing: .1em; }
+.museum-status { position: absolute; top: 10px; right: 10px; z-index: 1; background: rgba(14, 15, 19, .85); }
+
+.museum-meta { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; border-bottom: var(--line-d); padding-bottom: 10px; }
+.museum-meta h3 { font: 650 clamp(24px, 2.4vw, 30px)/1.05 var(--font-display); letter-spacing: -.03em; }
+.museum-meta span { font: var(--fs-xs) var(--font-mono); color: var(--cobalt-l); white-space: nowrap; }
+.museum-card p { color: var(--muted-d); font-size: 15px; max-width: 52ch; }
+.museum-view { font-weight: 600; font-size: var(--fs-sm); display: flex; gap: 8px; transition: gap var(--t-fast), color var(--t-fast); }
+.museum-card:hover .museum-view { gap: 14px; color: var(--cobalt-l); }
+
+.museum-slot { grid-column: span 6; border: 1px dashed #343844; padding: var(--s4); display: flex; flex-direction: column; gap: var(--s2); justify-content: center; align-items: flex-start; min-height: 260px; background: repeating-linear-gradient(135deg, transparent 0 14px, rgba(255, 255, 255, .015) 14px 15px); }
+.museum-slot h3 { font: 650 clamp(26px, 3vw, 34px)/1.05 var(--font-display); letter-spacing: -.03em; }
+.museum-slot p { color: var(--muted-d); max-width: 44ch; font-size: 15px; }
+
+@media (max-width: 1000px) {
+  .museum-card, .museum-card.is-half { grid-column: span 6; }
+  .museum-card.is-wide { grid-column: span 12; }
+}
+@media (max-width: 640px) {
+  .museum-grid { grid-template-columns: 1fr; }
+  .museum-card, .museum-card.is-half, .museum-card.is-wide, .museum-slot { grid-column: 1 / -1; }
+  .museum-card.is-wide .museum-frame { aspect-ratio: 4 / 3; }
+}

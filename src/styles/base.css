@@ -72,3 +72,14 @@ section[id] { scroll-margin-top: 72px; }
 .scene { position: relative; margin: 0; max-width: 100%; background: var(--mist); overflow: hidden; }
 .scene svg { width: 100%; height: 100%; }
 .scene figcaption { position: absolute; left: 12px; bottom: 12px; font: 11px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; background: var(--fog); padding: 6px 10px; color: var(--muted); }
+
+.status { display: inline-flex; align-items: center; gap: 6px; font: 11px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; padding: 5px 9px; border: 1px solid #343844; color: var(--muted-d); white-space: nowrap; }
+.status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.status-live { color: var(--st-live); border-color: #5F7149; }
+.status-live::before { animation: status-pulse 1.8s ease-out infinite; }
+.status-dev { color: var(--st-dev); border-color: #76583F; }
+.status-proto { color: var(--st-proto); border-color: #4E6676; }
+.status-concept { color: var(--st-concept); border-color: #5C576A; }
+@keyframes status-pulse { 0% { box-shadow: 0 0 0 0 rgba(185, 210, 154, .6); } 100% { box-shadow: 0 0 0 6px rgba(185, 210, 154, 0); } }
+.cover-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cover-art { width: 100%; height: 100%; display: block; }

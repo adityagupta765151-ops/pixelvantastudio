@@ -19,7 +19,7 @@ export function Categories() {
           {CATEGORIES.map((c) => {
             const n = PROJECTS.filter((p) => p.category === c.id).length;
             return (
-              <Link key={c.id} className={`cat cat-${c.id}`} to={{ hash: "projects" }} state={{ category: c.id }}>
+              <Link key={c.id} className={`cat cat-${c.id}`} to={{ search: `?cat=${c.id}`, hash: "projects" }}>
                 <div className="cat-art"><CategoryArt id={c.id} /></div>
                 <div className="cat-top">
                   <h3>{c.name}</h3>

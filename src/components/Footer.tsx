@@ -22,7 +22,7 @@ export function Footer() {
           <ul>
             {CATEGORIES.map((c) => (
               <li key={c.id}>
-                <Link to={{ pathname: "/", hash: "projects" }} state={{ category: c.id }}>{c.name}</Link>
+                <Link to={{ pathname: "/", search: `?cat=${c.id}`, hash: "projects" }}>{c.name}</Link>
               </li>
             ))}
           </ul>
