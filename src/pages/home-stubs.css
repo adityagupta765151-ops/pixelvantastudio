@@ -1,0 +1,4 @@
+.stub { padding-block: var(--s6); border-top: var(--line); }
+.stub.dark { border-top: 0; }
+.stub h2 { font-size: var(--fs-h2); margin-top: var(--s2); color: var(--muted); }
+.stub.dark h2 { color: var(--muted-d); }

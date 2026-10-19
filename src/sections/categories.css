@@ -1,0 +1,26 @@
+.cats-sec { padding-top: var(--s5); }
+.cats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: var(--line); border-left: var(--line); }
+.cat { border-right: var(--line); border-bottom: var(--line); padding: var(--s3); display: flex; flex-direction: column; gap: var(--s2); text-decoration: none; background: var(--fog); transition: background var(--t-med); min-width: 0; }
+.cat:hover { background: var(--white); }
+.cat-art { position: relative; aspect-ratio: 4 / 3; background: var(--mist); display: grid; place-items: center; overflow: hidden; }
+.cat-art svg { width: 70%; height: auto; transition: transform var(--t-med) var(--ease); }
+.cat:hover .cat-art svg { transform: scale(1.06); }
+.cat-art::before { content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(58, 75, 255, .12) 50%, transparent 70%); transform: translateX(-100%); transition: transform 900ms var(--ease); }
+.cat:hover .cat-art::before { transform: translateX(100%); }
+.cat-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.cat h3 { font: 650 var(--fs-h3)/1 var(--font-display); letter-spacing: -.03em; transition: color var(--t-fast); }
+.cat:hover h3 { color: var(--cobalt); }
+.cat-count { font: var(--fs-xs) var(--font-mono); color: var(--muted); white-space: nowrap; }
+.cat p { font-size: 15px; color: var(--muted); flex: 1; }
+.cat-go { font-weight: 600; font-size: var(--fs-sm); display: flex; gap: 8px; transition: gap var(--t-fast); }
+.cat:hover .cat-go { gap: 14px; color: var(--cobalt); }
+
+/* tiny idle motion inside the art */
+.cat-games:hover .ca-hero { animation: ca-jump .6s var(--ease); transform-box: fill-box; }
+@keyframes ca-jump { 50% { transform: translateY(-14px); } }
+.ca-orbit { transform-box: view-box; transform-origin: 100px 75px; animation: ca-spin 12s linear infinite; }
+.cat-experiments:hover .ca-orbit { animation-duration: 3s; }
+@keyframes ca-spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 1000px) { .cats { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .cats { grid-template-columns: 1fr; } }

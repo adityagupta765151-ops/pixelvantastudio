@@ -1,0 +1,16 @@
+.about { background: var(--white); border-block: var(--line); }
+.about-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: var(--s5); align-items: center; }
+.about-copy { min-width: 0; }
+.about h2 { font-size: clamp(44px, 6vw, 80px); margin: var(--s2) 0 var(--s3); }
+.about-body { display: grid; gap: var(--s2); max-width: 56ch; color: #3F4350; font-size: 17px; }
+.about-traits { list-style: none; padding: 0; margin: var(--s4) 0; display: grid; grid-template-columns: 1fr 1fr; border-top: var(--line); }
+.about-traits li { padding: 14px 0; border-bottom: var(--line); font-size: 15px; display: flex; gap: 12px; }
+.about-traits li:nth-child(odd) { padding-right: 16px; }
+.about-traits span { font: var(--fs-xs) var(--font-mono); color: var(--cobalt); padding-top: 3px; }
+.about-scene { aspect-ratio: 4 / 5; }
+.sk-draw > * { stroke-dasharray: 400; stroke-dashoffset: 0; }
+.about-scene:not(.is-pre) .sk-draw > * { animation: sk-draw 2.4s var(--ease) both; }
+.sk-draw > *:nth-child(n+5) { animation-delay: .4s !important; }
+@keyframes sk-draw { from { stroke-dashoffset: 400; } }
+@media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; } .about-scene { aspect-ratio: 4 / 3; } }
+@media (max-width: 480px) { .about-traits { grid-template-columns: 1fr; } }
