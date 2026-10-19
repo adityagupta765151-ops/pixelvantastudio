@@ -6,8 +6,6 @@
 .pj-title { font-size: clamp(48px, 9vw, 128px); margin: var(--s2) 0; }
 .pj-sum { max-width: 56ch; color: var(--muted-d); font-size: var(--fs-lg); }
 .pj-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: var(--s3); }
-.btn-light { background: var(--fog); color: var(--vanta); border-color: var(--fog); }
-.btn-light:hover { background: var(--cobalt-l); border-color: var(--cobalt-l); gap: 14px; }
 .btn-outline-light { background: transparent; color: var(--fog); border-color: #3B404C; }
 .btn-outline-light:hover { background: var(--fog); color: var(--vanta); }
 .pj-cover { margin-top: var(--s4); aspect-ratio: 21 / 9; position: relative; overflow: hidden; border: var(--line-d); border-bottom: 0; max-width: 100%; }

@@ -6,9 +6,11 @@ import type { CategoryRow, ProjectRow } from "@/data/projectsRemote";
 import { useProjects } from "@/data/ProjectsProvider";
 import { Editor, emptyRow } from "./Editor";
 import { CategoriesAdmin } from "./CategoriesAdmin";
+import { EnquiriesAdmin } from "./EnquiriesAdmin";
 
 export function Dashboard() {
-  const [tab, setTab] = useState<"projects" | "categories">("projects");
+  const [tab, setTab] = useState<"projects" | "categories" | "enquiries">("projects");
+  const [unread, setUnread] = useState(0);
   const [cats, setCats] = useState<CategoryRow[]>([]);
   const [toast, setToast] = useState("");
   const { reload: reloadSite } = useProjects();
@@ -18,6 +20,10 @@ export function Dashboard() {
     if (data) setCats(data as CategoryRow[]);
   }, []);
   useEffect(() => { void loadCats(); }, [loadCats]);
+  useEffect(() => {
+    supabase!.from("enquiries").select("id", { count: "exact", head: true }).eq("read", false)
+      .then(({ count }) => setUnread(count ?? 0));
+  }, []);
 
   const flash = useCallback((m: string) => { setToast(m); setTimeout(() => setToast(""), 2600); }, []);
   const changed = useCallback(async (m: string) => { await loadCats(); void reloadSite(); flash(m); }, [loadCats, reloadSite, flash]);
@@ -29,10 +35,13 @@ export function Dashboard() {
         <button type="button" aria-current={tab === "categories" ? "page" : undefined} onClick={() => setTab("categories")}>
           Categories <sup>{cats.length}</sup>
         </button>
+        <button type="button" aria-current={tab === "enquiries" ? "page" : undefined} onClick={() => setTab("enquiries")}>
+          Enquiries {unread > 0 && <span className="adm-badge">{unread}</span>}
+        </button>
       </nav>
-      {tab === "projects"
-        ? <ProjectsAdmin cats={cats} flash={flash} onChange={changed} />
-        : <CategoriesAdmin cats={cats} flash={flash} onChange={changed} />}
+      {tab === "projects" && <ProjectsAdmin cats={cats} flash={flash} onChange={changed} />}
+      {tab === "categories" && <CategoriesAdmin cats={cats} flash={flash} onChange={changed} />}
+      {tab === "enquiries" && <EnquiriesAdmin flash={flash} onUnread={setUnread} />}
       {toast && <div className="adm-toast" role="status">{toast}</div>}
     </>
   );

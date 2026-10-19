@@ -27,6 +27,6 @@ npm run build    # type-check + production build into dist/
 - [x] 4 Digital Museum + filters
 - [x] 5 Project detail pages
 - [x] 5.5 Admin panel (Supabase)
-- [ ] 6 Skills, process, contact form
+- [x] 6 Skills, process, contact form (enquiries → /admin inbox)
 - [ ] 7 Motion, responsive, accessibility polish
 - [ ] 8 SEO, testing, launch

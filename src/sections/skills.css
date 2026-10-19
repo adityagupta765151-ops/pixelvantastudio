@@ -1,0 +1,25 @@
+.skills { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--vanta); }
+.skill { position: relative; padding: var(--s3) var(--s3) var(--s4) 0; border-bottom: var(--line); display: grid; gap: 10px; align-content: start; transition: background var(--t-med); }
+.skill:nth-child(3n + 2), .skill:nth-child(3n) { padding-left: var(--s3); border-left: var(--line); }
+.skill h3 { font: 650 clamp(22px, 2.2vw, 28px)/1.1 var(--font-display); letter-spacing: -.03em; transition: color var(--t-fast); }
+.skill p { font-size: 15px; color: var(--muted); }
+.skill-tags { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.skill-tags li { font: var(--fs-xs) var(--font-mono); padding: 4px 8px; background: var(--mist); color: #3F4350; transition: background var(--t-fast), color var(--t-fast); }
+.skill-px { position: absolute; top: -5px; left: 0; width: 9px; height: 9px; background: var(--cobalt); transform: scale(0); transition: transform var(--t-med) var(--ease); }
+.skill:nth-child(3n + 2) .skill-px, .skill:nth-child(3n) .skill-px { left: var(--s3); }
+.skill:hover .skill-px { transform: none; }
+.skill:hover h3 { color: var(--cobalt); }
+.skill:hover .skill-tags li { background: var(--vanta); color: var(--fog); }
+.skill:hover .skill-tags li:nth-child(2n) { background: var(--cobalt); }
+@media (max-width: 900px) {
+  .skills { grid-template-columns: 1fr 1fr; }
+  .skill:nth-child(n) { padding-left: 0; border-left: 0; }
+  .skill:nth-child(n) .skill-px { left: 0; }
+  .skill:nth-child(2n) { padding-left: var(--s3); border-left: var(--line); }
+  .skill:nth-child(2n) .skill-px { left: var(--s3); }
+}
+@media (max-width: 560px) {
+  .skills { grid-template-columns: 1fr; }
+  .skill:nth-child(n) { padding-left: 0; padding-right: 0; border-left: 0; }
+  .skill:nth-child(n) .skill-px { left: 0; }
+}
