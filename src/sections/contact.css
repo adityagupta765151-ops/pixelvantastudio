@@ -45,3 +45,5 @@
 @keyframes sent-px { from { transform: scale(0); } }
 
 @media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; gap: var(--s4); } }
+.contact-channels a { display: inline-block; padding-block: 6px; }
+.contact-channels li { padding: 12px 0; }

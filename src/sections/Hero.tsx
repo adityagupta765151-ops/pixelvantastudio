@@ -13,18 +13,18 @@ export function Hero() {
     <section id="home" className="hero">
       <PixelField />
       <div className="wrap">
+        <p className="eyebrow rise">{hero.eyebrow}</p>
+        <h1 className="display hero-title">
+          {hero.lines.map((line, i) => (
+            <span key={line} className="ln">
+              <span style={{ animationDelay: `${i * 0.12}s` }}>
+                {i === hero.accentLine ? <em className="sheen">{line}</em> : line}
+              </span>
+            </span>
+          ))}
+        </h1>
         <div className="hero-grid">
           <div className="hero-copy">
-            <p className="eyebrow rise">{hero.eyebrow}</p>
-            <h1 className="display hero-title">
-              {hero.lines.map((line, i) => (
-                <span key={line} className="ln">
-                  <span style={{ animationDelay: `${i * 0.12}s` }}>
-                    {i === hero.accentLine ? <em className="sheen">{line}</em> : line}
-                  </span>
-                </span>
-              ))}
-            </h1>
             <p className="hero-lead rise d2">{hero.lead}</p>
             <div className="hero-ctas rise d3">
               <Link ref={ctaRef} to={{ hash: "projects" }} className="btn btn-primary">

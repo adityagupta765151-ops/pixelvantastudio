@@ -1,15 +1,16 @@
-.hero { position: relative; overflow: hidden; padding-block: var(--s5); }
+.hero { position: relative; overflow: hidden; padding-block: var(--s4) var(--s5); }
 .pixel-field { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 .hero > .wrap { position: relative; z-index: 1; }
-.hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: var(--s5); align-items: center; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: var(--s5); align-items: start; }
 .hero-copy { min-width: 0; }
-.hero-title { font-size: var(--fs-h1); margin: var(--s3) 0; }
+.hero-title { font-size: clamp(44px, 7.4vw, 116px); margin: var(--s2) 0 var(--s4); }
+@media (min-width: 861px) { .hero-title .ln > span { white-space: nowrap; } }
 .hero-lead { font-size: var(--fs-lg); max-width: 46ch; color: #3F4350; }
-.hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: var(--s4); }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: var(--s3); }
 .hero-note { display: flex; align-items: center; gap: 10px; margin-top: var(--s3); font: 13px var(--font-mono); letter-spacing: .04em; color: var(--cobalt); }
 .hero-arrow { stroke-dasharray: 60; stroke-dashoffset: 60; animation: hero-draw 1.2s var(--ease) 1s forwards; }
 @keyframes hero-draw { to { stroke-dashoffset: 0; } }
-.hero-scene { aspect-ratio: 4 / 4.4; }
+.hero-scene { aspect-ratio: 16 / 10; }
 .hero-meta { display: flex; flex-wrap: wrap; gap: var(--s4); margin: var(--s5) 0 0; padding-top: var(--s3); border-top: var(--line); }
 .hero-meta dt { font: 500 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 4px; }
 .hero-meta dd { margin: 0; font-size: var(--fs-sm); color: var(--muted); }
@@ -39,7 +40,8 @@
 @media (max-width: 860px) {
   .hero { padding-block: var(--s4); }
   .hero-grid { grid-template-columns: 1fr; gap: var(--s4); }
-  .hero-scene { aspect-ratio: 4 / 3.2; order: -1; }
+  .hero-title { margin-bottom: var(--s3); }
+  .hero-scene { aspect-ratio: 4 / 3; }
 }
 @media (prefers-reduced-motion: reduce) {
   .ws-code rect, .ln > span { transform: none !important; }

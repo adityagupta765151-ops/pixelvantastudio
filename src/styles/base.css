@@ -86,3 +86,5 @@ section[id] { scroll-margin-top: 72px; }
 
 .btn-light { background: var(--fog); color: var(--vanta); border-color: var(--fog); }
 .btn-light:hover { background: var(--cobalt-l); border-color: var(--cobalt-l); gap: 14px; }
+.cover-caret { animation: cover-caret 1s steps(1) infinite; }
+@keyframes cover-caret { 50% { opacity: 0; } }
