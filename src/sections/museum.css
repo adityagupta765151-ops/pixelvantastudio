@@ -8,7 +8,7 @@
 .museum-filter:hover { color: var(--fog); border-color: var(--muted-d); }
 .museum-filter[aria-pressed="true"] { background: var(--fog); color: var(--vanta); border-color: var(--fog); }
 
-.museum-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--s4) var(--s3); }
+.museum-grid { display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-flow: row dense; gap: var(--s4) var(--s3); }
 .museum-card, .museum-slot { animation: museum-in var(--t-med) var(--ease) both; }
 @keyframes museum-in { from { opacity: 0; transform: translateY(12px); } }
 
