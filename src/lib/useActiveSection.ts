@@ -13,7 +13,13 @@ export function useActiveSection(ids: readonly string[], enabled = true) {
       const el = document.getElementById(id);
       if (el) io.observe(el);
     });
-    return () => io.disconnect();
+    // at the very bottom the last section may never reach the middle of the screen
+    const onScroll = () => {
+      const doc = document.documentElement;
+      if (window.scrollY + window.innerHeight >= doc.scrollHeight - 4) setActive(ids[ids.length - 1]);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => { io.disconnect(); window.removeEventListener("scroll", onScroll); };
   }, [ids, enabled]);
   return active;
 }

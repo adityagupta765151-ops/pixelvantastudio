@@ -4,6 +4,7 @@ import { Logo } from "./Logo";
 import { NAV_LINKS } from "@/data/nav";
 import { useActiveSection } from "@/lib/useActiveSection";
 import { useScrollProgress } from "@/lib/useScrollProgress";
+import { lenisRef, scrollToTarget } from "@/lib/lenis";
 import "./nav.css";
 
 const IDS = NAV_LINKS.map((l) => l.id);
@@ -31,14 +32,15 @@ export function Nav() {
     };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
+    lenisRef.current?.stop();
     requestAnimationFrame(() => menuRef.current?.querySelector<HTMLElement>("a")?.focus());
-    return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = ""; };
+    return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = ""; lenisRef.current?.start(); };
   }, [open]);
 
   return (
     <header className="nav">
       <div className="wrap nav-row">
-        <Link to="/" className="nav-brand" aria-label="pixelvantastudio home" onClick={() => onHome && window.scrollTo({ top: 0 })}>
+        <Link to="/" className="nav-brand" aria-label="pixelvantastudio home" onClick={() => onHome && scrollToTarget(0)}>
           <Logo size={28} />
         </Link>
 

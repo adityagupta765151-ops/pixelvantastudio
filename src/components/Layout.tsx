@@ -2,6 +2,12 @@ import { useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
+import { SmoothScroll } from "./SmoothScroll";
+import { Preloader } from "./Preloader";
+import { scrollToTarget } from "@/lib/lenis";
+import { ScrollTrigger } from "@/lib/gsap";
+
+const NAV_OFFSET = -72;
 
 /** Scrolls to #hash targets after navigation, or to top on a new page. */
 function ScrollManager() {
@@ -14,10 +20,14 @@ function ScrollManager() {
   useEffect(() => {
     if (hash) {
       const id = decodeURIComponent(hash.slice(1));
-      // wait a frame so the target section is mounted
-      requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ block: "start" }));
+      // wait for the target section (and any pins above it) to be laid out
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+        const el = document.getElementById(id);
+        if (el) scrollToTarget(el, { offset: NAV_OFFSET });
+      }));
     } else {
-      window.scrollTo(0, 0);
+      scrollToTarget(0, { immediate: true });
     }
   }, [pathname, hash, key]);
   return null;
@@ -25,14 +35,16 @@ function ScrollManager() {
 
 export default function Layout() {
   return (
-    <>
+    <SmoothScroll>
+      <Preloader />
       <a href="#main" className="skip-link">Skip to content</a>
       <ScrollManager />
       <Nav />
-      <div id="main" tabIndex={-1}>
+      {/* C098: the page sits above the footer and lifts away to reveal it */}
+      <div id="main" className="page-main" tabIndex={-1}>
         <Outlet />
       </div>
       <Footer />
-    </>
+    </SmoothScroll>
   );
 }

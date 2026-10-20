@@ -2,14 +2,29 @@ import { Link } from "react-router-dom";
 import { SITE } from "@/data/site";
 import { PixelField } from "@/components/PixelField";
 import { useMagnetic } from "@/lib/useMagnetic";
+import { useRef } from "react";
+import { gsap, useGSAP, DESKTOP } from "@/lib/gsap";
 import "./hero.css";
 
 export function Hero() {
   const ctaRef = useMagnetic<HTMLAnchorElement>();
   const { hero } = SITE;
+  const root = useRef<HTMLElement>(null);
+
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add(DESKTOP, () => {
+      const st = { trigger: root.current, start: "top top", end: "bottom top", scrub: 0.5 };
+      // C019: the headline eases back and fades as the page scrolls away
+      gsap.to(".hero-title", { scale: 0.88, yPercent: -18, opacity: 0.25, transformOrigin: "0% 0%", ease: "none", scrollTrigger: st });
+      // C036: the photo drifts inside its frame
+      gsap.fromTo(".hero-scene img", { yPercent: -5 }, { yPercent: 7, ease: "none", scrollTrigger: { ...st, start: "top top" } });
+    });
+    return () => mm.revert();
+  }, { scope: root });
 
   return (
-    <section id="home" className="hero">
+    <section ref={root} id="home" className="hero">
       <PixelField />
       <div className="wrap">
         <p className="eyebrow rise">{hero.eyebrow}</p>

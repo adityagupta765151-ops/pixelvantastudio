@@ -12,8 +12,9 @@
 @keyframes hero-draw { to { stroke-dashoffset: 0; } }
 .hero-scene { aspect-ratio: 16 / 10; }
 .scene img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.hero-scene img { animation: hero-photo 1.6s var(--ease) both; }
-@keyframes hero-photo { from { transform: scale(1.06); filter: saturate(.6); } }
+/* the photo is a little taller than its frame so the parallax never shows an edge */
+.hero-scene img { height: 114%; margin-top: -7%; animation: hero-photo 1.6s var(--ease) both; }
+@keyframes hero-photo { from { filter: saturate(.5) brightness(1.08); clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
 .hero-meta { display: flex; flex-wrap: wrap; gap: var(--s4); margin: var(--s5) 0 0; padding-top: var(--s3); border-top: var(--line); }
 .hero-meta dt { font: 500 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 4px; }
 .hero-meta dd { margin: 0; font-size: var(--fs-sm); color: var(--muted); }

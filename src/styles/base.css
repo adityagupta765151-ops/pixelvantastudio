@@ -1,5 +1,8 @@
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; }
+/* Lenis drives smooth scrolling; native smooth scroll would fight it */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-stopped { overflow: hidden; }
 body {
   margin: 0;
   background: var(--fog);
@@ -88,3 +91,14 @@ section[id] { scroll-margin-top: 72px; }
 .btn-light:hover { background: var(--cobalt-l); border-color: var(--cobalt-l); gap: 14px; }
 .cover-caret { animation: cover-caret 1s steps(1) infinite; }
 @keyframes cover-caret { 50% { opacity: 0; } }
+
+/* C098 footer reveal: the page lifts away and the footer waits underneath (desktop, tall screens) */
+.page-main { position: relative; z-index: 1; background: var(--fog); }
+@media (min-width: 861px) and (min-height: 700px) {
+  .page-main { box-shadow: 0 30px 60px -30px rgba(14, 15, 19, .5); }
+  .footer { position: sticky; bottom: 0; z-index: 0; }
+}
+
+/* C084 animated underline links */
+.u-link { text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size var(--t-med) var(--ease); }
+.u-link:hover, .u-link:focus-visible { background-size: 100% 1px; }

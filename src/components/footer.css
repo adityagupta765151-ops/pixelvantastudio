@@ -11,7 +11,10 @@
 .footer-bottom { grid-column: 1 / -1; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: var(--s3); border-top: var(--line-d); font: var(--fs-xs) var(--font-mono); }
 .footer-giant {
   font: 800 clamp(80px, 19vw, 280px)/.8 var(--font-display); letter-spacing: -.06em;
-  color: transparent; -webkit-text-stroke: 1px #262A33; white-space: nowrap;
+  --fill: 0%;
+  color: transparent; -webkit-text-stroke: 1px #2E323C; white-space: nowrap;
+  background: linear-gradient(90deg, var(--cobalt) 0%, var(--coral) var(--fill), transparent var(--fill));
+  -webkit-background-clip: text; background-clip: text;
   margin: 0 0 -.12em -.04em; padding-left: max(16px, env(safe-area-inset-left, 0px)); user-select: none;
 }
 @media (max-width: 760px) {

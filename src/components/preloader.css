@@ -1,0 +1,4 @@
+.preloader { position: fixed; inset: 0; z-index: 200; background: var(--vanta); color: var(--fog); display: grid; place-items: center; align-content: center; gap: 22px; }
+.pre-mark .pv-mark rect:first-child { fill: var(--vanta-3); }
+.pre-count { font: 500 14px var(--font-mono); letter-spacing: .2em; color: var(--muted-d); }
+.pre-count i { font-style: normal; color: var(--coral); margin-left: 2px; }

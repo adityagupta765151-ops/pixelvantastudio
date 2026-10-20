@@ -1,12 +1,36 @@
 import { Link } from "react-router-dom";
 import { useProjects } from "@/data/ProjectsProvider";
 import { CategoryArt } from "@/components/art/CategoryArt";
+import { useRef } from "react";
+import { gsap, useGSAP, DESKTOP } from "@/lib/gsap";
 import "./categories.css";
 
 export function Categories() {
   const { projects: PROJECTS, categories: CATEGORIES } = useProjects();
+  const root = useRef<HTMLElement>(null);
+  const track = useRef<HTMLDivElement>(null);
+
+  // C051: on desktop the room cards slide sideways while the section is pinned; phones get a normal stack
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add(DESKTOP, () => {
+      const el = track.current!;
+      const distance = () => Math.max(0, el.scrollWidth - el.clientWidth);
+      if (distance() < 40) return;
+      gsap.to(el.querySelectorAll(".cat"), {
+        x: () => -distance(), ease: "none",
+        scrollTrigger: {
+          trigger: root.current, start: "top top", end: () => "+=" + distance(),
+          pin: true, scrub: 0.8, invalidateOnRefresh: true, anticipatePin: 1,
+        },
+      });
+      root.current?.classList.add("is-horizontal");
+      return () => root.current?.classList.remove("is-horizontal");
+    });
+    return () => mm.revert();
+  }, { scope: root, dependencies: [CATEGORIES.length], revertOnUpdate: true });
   return (
-    <section className="sec cats-sec" aria-labelledby="cats-title">
+    <section ref={root} className="sec cats-sec" aria-labelledby="cats-title">
       <div className="wrap">
         <div className="sec-head reveal">
           <div>
@@ -15,7 +39,7 @@ export function Categories() {
           </div>
           <p>Each collection opens inside the Digital Museum below. Pick one to jump straight to it.</p>
         </div>
-        <div className="cats reveal">
+        <div ref={track} className="cats">
           {CATEGORIES.map((c) => {
             const n = PROJECTS.filter((p) => p.category === c.id).length;
             return (
@@ -31,6 +55,7 @@ export function Categories() {
             );
           })}
         </div>
+        <p className="cats-hint" aria-hidden="true">Keep scrolling <i /></p>
       </div>
     </section>
   );

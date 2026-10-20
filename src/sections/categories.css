@@ -33,3 +33,14 @@
 .cat:hover .cat-art .cat-photo { transform: scale(1.06); filter: saturate(1.08); }
 /* the piece count no longer spills out of narrow cards */
 .cat-top { flex-wrap: wrap; row-gap: 4px; }
+
+/* C051 desktop: one row that scrolls sideways while the section is pinned */
+@media (min-width: 861px) and (prefers-reduced-motion: no-preference) {
+  .cats-sec { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding-block: var(--s5); }
+  .cats { display: flex; overflow: hidden; }
+  .cats .cat { flex: 0 0 clamp(300px, 27vw, 380px); will-change: transform; }
+  .cats-hint { display: inline-flex; }
+}
+.cats-hint { display: none; align-items: center; gap: 8px; margin-top: var(--s3); font: var(--fs-xs) var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.cats-hint i { width: 28px; height: 1px; background: currentColor; position: relative; }
+.cats-hint i::after { content: ""; position: absolute; right: 0; top: -3px; width: 7px; height: 7px; border-top: 1px solid; border-right: 1px solid; transform: rotate(45deg); }
