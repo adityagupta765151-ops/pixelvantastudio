@@ -7,8 +7,6 @@ import { Preloader } from "./Preloader";
 import { scrollToTarget } from "@/lib/lenis";
 import { ScrollTrigger } from "@/lib/gsap";
 
-const NAV_OFFSET = -72;
-
 /** Scrolls to #hash targets after navigation, or to top on a new page. */
 function ScrollManager() {
   const { pathname, hash, key } = useLocation();
@@ -24,7 +22,7 @@ function ScrollManager() {
       requestAnimationFrame(() => requestAnimationFrame(() => {
         ScrollTrigger.refresh();
         const el = document.getElementById(id);
-        if (el) scrollToTarget(el, { offset: NAV_OFFSET });
+        if (el) scrollToTarget(el);
       }));
     } else {
       scrollToTarget(0, { immediate: true });

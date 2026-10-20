@@ -37,6 +37,7 @@
 /* C051 desktop: one row that scrolls sideways while the section is pinned */
 @media (min-width: 861px) and (prefers-reduced-motion: no-preference) {
   .cats-sec { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding-block: var(--s5); }
+  .cats-sec > .wrap { width: 100%; min-width: 0; }
   .cats { display: flex; overflow: hidden; }
   .cats .cat { flex: 0 0 clamp(300px, 27vw, 380px); will-change: transform; }
   .cats-hint { display: inline-flex; }
