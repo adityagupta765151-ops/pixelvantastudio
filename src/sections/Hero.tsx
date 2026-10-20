@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { SITE } from "@/data/site";
 import { PixelField } from "@/components/PixelField";
-import { WorkspaceScene } from "@/components/art/WorkspaceScene";
 import { useMagnetic } from "@/lib/useMagnetic";
 import "./hero.css";
 
@@ -39,9 +38,16 @@ export function Hero() {
               from first sketch to deployed product
             </p>
           </div>
-          <figure className="scene hero-scene rise d2" aria-label="Illustration of a workspace: laptop with code, notebook, plant and window light">
-            <WorkspaceScene />
-            <figcaption>Illustration · workspace</figcaption>
+          <figure className="scene hero-scene rise d2">
+            <img
+              src="/images/hero-workspace.webp"
+              alt="A bright desk by a window with a laptop, a desktop monitor and a small plant"
+              width={1600}
+              height={1000}
+              fetchPriority="high"
+              decoding="async"
+            />
+            <figcaption>Photo · Unsplash</figcaption>
           </figure>
         </div>
 

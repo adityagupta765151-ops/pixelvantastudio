@@ -1,15 +1,21 @@
 import { Link } from "react-router-dom";
 import { ABOUT } from "@/data/about";
-import { SketchScene } from "@/components/art/SketchScene";
 import "./about.css";
 
 export function About() {
   return (
     <section id="about" className="sec about">
       <div className="wrap about-grid">
-        <figure className="scene about-scene reveal" aria-label="Illustration of a notebook with wireframe sketches">
-          <SketchScene />
-          <figcaption>Illustration · planning sketches</figcaption>
+        <figure className="scene about-scene reveal">
+          <img
+            src="/images/about-sketching.webp"
+            alt="A hand sketching app wireframes on paper with a fine-tip pen"
+            width={800}
+            height={1000}
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>Photo · Unsplash</figcaption>
         </figure>
         <div className="about-copy reveal">
           <p className="eyebrow">About</p>

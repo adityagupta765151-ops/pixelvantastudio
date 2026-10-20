@@ -27,3 +27,9 @@
 .ca-prints g { transition: transform var(--t-med) var(--ease); transform-box: fill-box; transform-origin: center; }
 .cat:hover .ca-flash { animation: ca-flash .5s ease-out; }
 @keyframes ca-flash { 20% { opacity: .85; } 100% { opacity: 0; } }
+
+/* real photos fill the art box */
+.cat-art .cat-photo { width: 100%; height: 100%; object-fit: cover; transition: transform 900ms var(--ease), filter var(--t-med); filter: saturate(.92); }
+.cat:hover .cat-art .cat-photo { transform: scale(1.06); filter: saturate(1.08); }
+/* the piece count no longer spills out of narrow cards */
+.cat-top { flex-wrap: wrap; row-gap: 4px; }

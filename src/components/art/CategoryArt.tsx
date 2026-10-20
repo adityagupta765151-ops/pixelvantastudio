@@ -1,7 +1,23 @@
 import type { CategoryKind } from "@/data/types";
 
 /** Illustration per museum room. New rooms from the admin get a generic frame (or a camera for galleries). */
+const PHOTOS: Record<string, string> = {
+  websites: "A laptop on a glass desk showing an analytics dashboard",
+  apps: "A hand holding a phone with a weather and air-quality app open",
+  games: "A game controller lit in cyan and magenta light",
+  experiments: "A glowing circuit board pattern on a dark glass panel",
+  photography: "A vintage twin-lens reflex camera on a pale grey background",
+};
+
+/** Room artwork: a real photo for the built-in rooms, an illustration for rooms added later in the admin. */
 export function CategoryArt({ id, kind = "projects" }: { id: string; kind?: CategoryKind }) {
+  if (PHOTOS[id]) {
+    return <img className="cat-photo" src={`/images/cat-${id}.webp`} alt={PHOTOS[id]} width={667} height={500} loading="lazy" decoding="async" />;
+  }
+  return <CategoryIllustration id={id} kind={kind} />;
+}
+
+function CategoryIllustration({ id, kind }: { id: string; kind: CategoryKind }) {
   switch (id) {
     case "websites":
       return (
